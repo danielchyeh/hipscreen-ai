@@ -112,7 +112,7 @@ def dataset_generate_hip(_IMAGE_DIR, label_file, level_labels, rotation_base=20)
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-BASE_DIR', type=str, default='/home/ucbdandan38/work/hipscreen_repo/hipdata/NEW202202', help='access data/label')
+    parser.add_argument('-BASE_DIR', type=str, default='../data', help='access data/label')
     parser.add_argument('-LABEL_DIR', type=str, default='stage_1_labels_processed', help='access label file')
     parser.add_argument('-OUTPUT_PRED', type=str, default='avgR_MP_update_data', help='path to output prediction file')
     parser.add_argument('-MODE', type=str, default='test', choices=['val', 'test'], help='evaluate on validation or test set')

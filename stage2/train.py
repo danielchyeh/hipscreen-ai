@@ -153,7 +153,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-net', type=str, default='CPN', help='net type')
-    parser.add_argument('-BASE_DIR', type=str, default='/home/ucbdandan38/work/hipscreen_repo/hipdata/NEW202202', help='access data/label')
+    parser.add_argument('-BASE_DIR', type=str, default='../data', help='access data/label')
     parser.add_argument('-LABEL_DIR', type=str, default='stage_2_labels_processed_train.csv', help='access label file')
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
     parser.add_argument('-batch', type=int, default=16, help='batch size for dataloader')

@@ -162,7 +162,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-net', type=str, default='CPN', help='net type')
-    parser.add_argument('-BASE_DIR', type=str, default='/home/ucbdandan38/work/hipscreen_repo/hipdata/NEW202202', help='access data/label')
+    parser.add_argument('-BASE_DIR', type=str, default='../data', help='access data/label')
     parser.add_argument('-LABEL_DIR', type=str, default='stage_2_labels_processed', help='access label file')
     parser.add_argument('-GT_STAGE1_LABEL', type=str, default='stage_1_labels_processed', help='access label file')
     parser.add_argument('-MODEL_STAGE1_PRED', type=str, default='avgR_MP_update_data', help='access label file')

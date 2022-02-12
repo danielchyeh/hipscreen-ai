@@ -151,8 +151,8 @@ def train(epoch):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-BASE_DIR', type=str, default='', help='access data/label')
-    parser.add_argument('-LABEL_DIR', type=str, default='', help='access label file')
+    parser.add_argument('-BASE_DIR', type=str, default='../data', help='access data/label')
+    parser.add_argument('-LABEL_DIR', type=str, default='stage_1_labels_processed_train.csv', help='access label file')
     parser.add_argument('-level_labels', nargs="+", default=['triradiate','tuberosity','crest','obturator'], help='type of level label for avg rot')
     parser.add_argument('-net', type=str, required=True, help='net type')
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
