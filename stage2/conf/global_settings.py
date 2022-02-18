@@ -33,7 +33,7 @@ TIME_NOW = datetime.now().strftime(DATE_FORMAT)
 LOG_DIR = 'runs'
 
 #save weights file per SAVE_EPOCH epoch
-SAVE_EPOCH = 10
+SAVE_EPOCH = 50
 
 
 

@@ -22,6 +22,7 @@ from utils import get_network, WarmUpLR, most_recent_folder, \
 from CPN import CoordRegressionNetwork
 from dsnt import dsntnn
 
+
 ###hipdata
 import re
 import pandas as pd
@@ -157,8 +158,9 @@ if __name__ == '__main__':
     parser.add_argument('-LABEL_DIR', type=str, default='stage_2_labels_processed_train.csv', help='access label file')
     parser.add_argument('-gpu', action='store_true', default=False, help='use gpu or not')
     parser.add_argument('-batch', type=int, default=16, help='batch size for dataloader')
-    parser.add_argument('-warm', type=int, default=1, help='warm up training phase')
+    parser.add_argument('-warm', type=int, default=5, help='warm up training phase')
     parser.add_argument('-lr', type=float, default=0.03, help='initial learning rate')
+    parser.add_argument('-cosine', action='store_true', default=False, help='cosine annealing')
     parser.add_argument('-resume', action='store_true', default=False, help='resume training')
     args = parser.parse_args()
 
@@ -176,9 +178,17 @@ if __name__ == '__main__':
 
     loss_function = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
-    train_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=settings.MILESTONES, gamma=0.2) #learning rate decay
     iter_per_epoch = len(trainset_hip)
     warmup_scheduler = WarmUpLR(optimizer, iter_per_epoch * args.warm)
+
+
+    if args.cosine:
+        train_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer, eta_min=0.000001,
+            T_max=(settings.EPOCH - args.warm) * iter_per_epoch)
+        sche = 'cosine'
+    else:
+        train_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=settings.MILESTONES, gamma=0.2) #learning rate decay
+        sche = 'multistep'
 
     if args.resume:
         recent_folder = most_recent_folder(os.path.join(settings.CHECKPOINT_PATH, args.net), fmt=settings.DATE_FORMAT)
@@ -188,7 +198,8 @@ if __name__ == '__main__':
         checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, 'stage2', args.net, recent_folder)
 
     else:
-        checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, 'stage2', args.net, settings.TIME_NOW)
+        path_settings = 'bs{}_lr{}_epoch{}_{}'.format(args.batch,args.lr,settings.EPOCH,sche)
+        checkpoint_path = os.path.join(settings.CHECKPOINT_PATH, 'stage2', args.net, path_settings)
 
 
     #create checkpoint folder to save model
